@@ -10,7 +10,7 @@ file=dban-2.3.0_i586.iso
 
 cd $workdir
 
-curl -z $file --location --verbose -o $file $url
+curl -z $file --location --silent -o $file $url
 
 mkdir dban-tmp
 
