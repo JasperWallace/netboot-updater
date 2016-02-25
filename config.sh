@@ -2,12 +2,12 @@
 
 # where to put files as we are working on them, needs to be persistant
 # to avoid re-downloading things everytime
-workdir="/tmp/netboot-update"
+workdir="/tftpboot/netboot-update-workdir"
 # or de, fr, us etc...
 location="uk"
 # where your tftp server looks for files
 # might be /srv/tftp etc...
-tftpdir="/tmp/tftpboot"
+tftpdir="/tftpboot"
 menus="${tftpdir}/pxelinux.cfg"
 
 mkdir -p $menus
