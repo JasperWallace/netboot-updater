@@ -1,0 +1,37 @@
+DEFAULT vesamenu.c32
+PROMPT 0
+MENU TITLE Netboot Updater example menu
+ALLOWOPTIONS 1
+
+label debian_install
+      menu label ^Debian Installers
+      kernel vesamenu.c32
+      append pxelinux.cfg/debian-install.cfg
+
+label ubuntu_install
+      menu label ^Ubuntu Installers
+      kernel vesamenu.c32
+      append pxelinux.cfg/ubuntu-install.cfg
+
+LABEL DBAN
+  MENU LABEL ^DBAN
+  KERNEL dban/dban.bzi
+  APPEND nuke="dwipe"
+
+#LABEL memtest+
+#   MENU LABEL ^Memory Test: Memtest86+ V5.01
+#   KERNEL memtest86+
+
+#LABEL memtest86-new
+#   MENU LABEL ^Memory Test: Memtest86 new V6.0.0
+#   KERNEL memdisk
+#   APPEND initrd=memtest86-usb.img
+
+#LABEL stresslinux
+#        MENU LABEL ^Stresslinux x86-64 0.7.177
+#        KERNEL image/initrd-netboot-suse-11.4.x86_64-2.1.1.kernel
+#        APPEND initrd=image/initrd-netboot-suse-11.4.x86_64-2.1.1.gz ramdisk_size=1122304
+
+LABEL localboot
+	MENU LABEL ^Boot from local hard drive
+	localboot 0
