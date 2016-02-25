@@ -1,17 +1,19 @@
 DEFAULT vesamenu.c32
 PROMPT 0
 MENU TITLE Netboot Updater example menu
+menu include pxelinux.cfg/graphics.conf
+
 ALLOWOPTIONS 1
 
 label debian_install
       menu label ^Debian Installers
       kernel vesamenu.c32
-      append pxelinux.cfg/debian-install.cfg
+      append pxelinux.cfg/debian-menu.cfg
 
 label ubuntu_install
       menu label ^Ubuntu Installers
       kernel vesamenu.c32
-      append pxelinux.cfg/ubuntu-install.cfg
+      append pxelinux.cfg/ubuntu-menu.cfg
 
 LABEL DBAN
   MENU LABEL ^DBAN
