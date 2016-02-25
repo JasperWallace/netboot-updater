@@ -7,6 +7,8 @@ the netboot setup up to date.
 
 ## Setup
 
+install curl
+
 edit `config.sh`, it should be pretty obvious
 
 The scripts do not create `pxelinux.cfg/default` for you, instead they create
@@ -15,6 +17,8 @@ however it shouldn't need changing after you've done it once.
 
 ## TODO
 
+menu.c32
+vesamenu.c32
 dban menus
 check checksums and fingerprints
 check we don't overwrite existing stuff
