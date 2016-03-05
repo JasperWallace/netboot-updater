@@ -39,14 +39,14 @@ for dist in jessie wheezy; do
 		if [ -e $dist-$arch-netboot.tar.gz ] ; then
 			extra="-z $dist-$arch-netboot.tar.gz"
 		fi
-	        ret="$(curl ${extra} --silent --write-out '%{http_code}' --location -o $dist-$arch-netboot.tar.gz \
+	        ret="$(curl ${extra} ${curlargs} --write-out '%{http_code}' --location -o $dist-$arch-netboot.tar.gz \
         	http://${mirror}/debian/dists/${dist}/main/installer-${arch}/current/images/netboot/netboot.tar.gz)"
-        	if [ $ret = "200" ] ; then
+        	if [ $ret = "200" -o -n "$force" ] ; then
         		# we got updated
         		echo "$dist-$arch was updated"
-        		curl --silent --location -z $dist-$arch-SHA256SUMS -o $dist-$arch-SHA256SUMS http://${mirror}/debian/dists/${dist}/main/installer-${arch}/current/images/SHA256SUMS
-        		curl --silent --location -z ${dist}-Release -o ${dist}-Release http://${mirror}/debian/dists/${dist}/Release
-        		curl --silent --location -z ${dist}-Release.gpg -o ${dist}-Release.gpg http://${mirror}/debian/dists/${dist}/Release.gpg
+        		curl ${curlargs} --location -z $dist-$arch-SHA256SUMS -o $dist-$arch-SHA256SUMS http://${mirror}/debian/dists/${dist}/main/installer-${arch}/current/images/SHA256SUMS
+        		curl ${curlargs} --location -z ${dist}-Release -o ${dist}-Release http://${mirror}/debian/dists/${dist}/Release
+        		curl ${curlargs} --location -z ${dist}-Release.gpg -o ${dist}-Release.gpg http://${mirror}/debian/dists/${dist}/Release.gpg
         		cat $dist-$arch-SHA256SUMS | grep -F netboot/netboot.tar.gz
         		sha256sum $dist-$arch-netboot.tar.gz
         		cat ${dist}-Release | grep -A 100000 '^SHA256' | grep -F installer-"${arch}"/current/images/SHA256SUMS

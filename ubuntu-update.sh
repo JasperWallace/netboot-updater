@@ -25,9 +25,9 @@ for dist in trusty-updates wily ; do
 		if [ -e $dist-$arch-netboot.tar.gz ] ; then
 			extra="-z $dist-$arch-netboot.tar.gz"
 		fi
-		ret="$(curl ${extra} --silent --write-out '%{http_code}' --location -o $dist-$arch-netboot.tar.gz \
+		ret="$(curl ${extra} ${curlargs} --write-out '%{http_code}' --location -o $dist-$arch-netboot.tar.gz \
 		http://archive.ubuntu.com/ubuntu/dists/${dist}/main/installer-${arch}/current/images/netboot/netboot.tar.gz)"
-		if [ $ret = "200" ] ; then
+		if [ $ret = "200" -o -n "$force" ] ; then
 			echo "$dist-$arch was updated"
 			tar xzf ${dist}-${arch}-netboot.tar.gz ./ubuntu-installer/
 			find ./ubuntu-installer/ -type f -print0 | \

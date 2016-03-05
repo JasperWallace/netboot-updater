@@ -23,3 +23,37 @@ fi
 if [ ! -e ${workdir} ] ; then
         mkdir -p ${workdir}
 fi
+
+force=
+verbose=
+
+usage ()
+{
+    echo "usage: $0 [[-f] [-v] | [-h]]"
+}
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -f | --force )          force=yes
+                                ;;
+        -v | --verbose )        verbose=yes
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+
+curlargs=" --silent "
+
+if [ -n "$verbose" ] ; then
+	curlargs=" --verbose "
+fi
+
+if [ -n "$force" ] ; then
+	echo "force"
+fi
+
