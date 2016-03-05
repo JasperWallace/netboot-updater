@@ -17,8 +17,8 @@ however it shouldn't need changing after you've done it once.
 
 ## TODO
 
-menu.c32
-vesamenu.c32
-dban menus
-check checksums and fingerprints
-check we don't overwrite existing stuff
+* menu.c32
+* vesamenu.c32
+* dban menus
+* check checksums and fingerprints
+* check we don't overwrite existing stuff
