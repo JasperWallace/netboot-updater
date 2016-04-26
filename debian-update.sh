@@ -62,6 +62,8 @@ for dist in jessie wheezy; do
         		tar xzf $dist-$arch-netboot.tar.gz ./debian-installer/
         		# mangle menu entries to fit under our new directory structure
         		find debian-installer/ -type f -iname "*.cfg" -print0 | xargs -0 sed "s,debian-installer/,debian-installer/${dist}/," -i
+			# nuke any existing stuff at the destination
+			rm -rf ${tftpdir}/debian-installer/${dist}/${arch}
         		mv -v -f -T debian-installer/${arch} ${tftpdir}/debian-installer/${dist}/${arch}
 cat >> ${menus}/debian-menu.cfg <<ABC123
 label Debian ${dist} ${arch}
