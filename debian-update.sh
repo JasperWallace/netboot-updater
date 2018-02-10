@@ -33,15 +33,22 @@ menu include pxelinux.cfg/graphics.conf
 
 EOF
 
-for dist in jessie wheezy; do
+for dist in jessie stretch; do
 	for arch in i386 amd64; do
 		extra=""
 		if [ -e $dist-$arch-netboot.tar.gz ] ; then
 			extra="-z $dist-$arch-netboot.tar.gz"
 		fi
+
+		missing=
+		if [ ! -e ${tftpdir}/debian-installer/${dist}/${arch} ] ; then
+			echo ${dist}/${arch} "is missing, updating"
+			missing="true"
+		fi
+
 	        ret="$(curl ${extra} ${curlargs} --write-out '%{http_code}' --location -o $dist-$arch-netboot.tar.gz \
         	http://${mirror}/debian/dists/${dist}/main/installer-${arch}/current/images/netboot/netboot.tar.gz)"
-        	if [ $ret = "200" -o -n "$force" ] ; then
+		if [ $ret = "200" -o -n "$force" -o -n "$missing" ] ; then
         		# we got updated
         		echo "$dist-$arch was updated"
         		curl ${curlargs} --location -z $dist-$arch-SHA256SUMS -o $dist-$arch-SHA256SUMS http://${mirror}/debian/dists/${dist}/main/installer-${arch}/current/images/SHA256SUMS
@@ -70,10 +77,19 @@ label Debian ${dist} ${arch}
       menu label ^Debian ${dist} ${arch}
       kernel vesamenu.c32
       append debian-installer/$dist/$arch/boot-screens/menu.cfg
+
 ABC123
         	elif [ $ret = "304" ] ; then
         		# not modified
         		true
+			echo ${dist} ${arch} no update needed
+cat >> ${menus}/debian-menu.cfg <<ABC123
+label Debian ${dist} ${arch}
+      menu label ^Debian ${dist} ${arch}
+      kernel vesamenu.c32
+      append debian-installer/$dist/$arch/boot-screens/menu.cfg
+
+ABC123
         	else
         		echo "got: ${ret} trying to download $dist-$arch-netboot.tar.gz, maybe something is wrong?"
         	fi
